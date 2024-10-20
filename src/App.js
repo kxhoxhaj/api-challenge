@@ -1,6 +1,7 @@
-import List from "./List";
+// import List from "./List";
 import { useState , useEffect } from "react"
 import Form from "./Form";
+import Table from "./Table";
 
 function App() {
   const API_URL = "https://jsonplaceholder.typicode.com/"
@@ -35,9 +36,10 @@ function App() {
       />
       {isLoading && <p style={{ color: 'green'}}> Loading Items... </p>}
       {fetchError && <p style={{color: 'red'}}>{`Error: ${fetchError}`}</p>}
-      <List
+      <Table items = {items} />
+      {/* <List
         items = {items}
-      />
+      /> */}
     </div>
   );
 }
