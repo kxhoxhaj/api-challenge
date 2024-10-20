@@ -1,23 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import Content from "./Content";
+import { useState , useEffect } from "react"
+import Form from "./Form";
 
 function App() {
+  const API_URL = "https://jsonplaceholder.typicode.com/"
+  const [reqType, setReqType] = useState('users');
+  const [items, setItems] = useState([])
+  const [fetchError, setFetchError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch(`${API_URL}${reqType}`)
+        if (!response.ok) throw Error('Did not recieve expected data')
+        const data = await response.json()
+        setItems(data)
+        setFetchError(null)
+      } catch (err) {
+        setFetchError(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchItems();
+  }, [reqType])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Form
+        reqType = {reqType}
+        setReqType = {setReqType}
+      />
+
+      <button
+        type="button"
+      >
+        Users
+      </button>
+      <button
+        type="button"
+      >
+        Posts
+      </button>
+      <button
+        type="button"
+      >
+        Comments
+      </button>
+      {isLoading && <p style={{ color: 'green'}}> Loading Items... </p>}
+      {fetchError && <p style={{color: 'red'}}>{`Error: ${fetchError}`}</p>}
+      <Content />
     </div>
   );
 }
