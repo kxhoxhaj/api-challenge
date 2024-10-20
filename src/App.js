@@ -1,4 +1,4 @@
-import Content from "./Content";
+import List from "./List";
 import { useState , useEffect } from "react"
 import Form from "./Form";
 
@@ -33,25 +33,11 @@ function App() {
         reqType = {reqType}
         setReqType = {setReqType}
       />
-
-      <button
-        type="button"
-      >
-        Users
-      </button>
-      <button
-        type="button"
-      >
-        Posts
-      </button>
-      <button
-        type="button"
-      >
-        Comments
-      </button>
       {isLoading && <p style={{ color: 'green'}}> Loading Items... </p>}
       {fetchError && <p style={{color: 'red'}}>{`Error: ${fetchError}`}</p>}
-      <Content />
+      <List
+        items = {items}
+      />
     </div>
   );
 }
